@@ -4,7 +4,7 @@ import Cat from "./Cat";
 
 const links = [
   ["/#story", "Наш мир"],
-  ["/#evenings", "События"],
+  ["/events", "События"],
   ["/#visit", "Где мы"],
 ];
 

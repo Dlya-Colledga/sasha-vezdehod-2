@@ -6,5 +6,6 @@ import "./style.css";
 import "./layout.css";
 import "./menu-page.css";
 import "./orders.css";
+import "./events.css";
 
 createRoot(document.getElementById("root")).render(<App />);

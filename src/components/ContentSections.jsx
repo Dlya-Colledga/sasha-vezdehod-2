@@ -8,8 +8,9 @@ import {
 } from "lucide-react";
 import Cat from "./Cat";
 import VisitMap, { GIS_URL } from "./VisitMap";
+import { EventsPreview } from "./Events";
 
-export default function ContentSections({ onMoodOpen }) {
+export default function ContentSections({ onMoodOpen, onNavigate }) {
   return (
     <>
       <section
@@ -110,105 +111,7 @@ export default function ContentSections({ onMoodOpen }) {
         </span>
       </section>
 
-      <section
-        className="events-section section"
-        id="evenings"
-      >
-        <div className="section-heading reveal">
-          <div>
-            <span className="eyebrow">
-              <span className="section-num">03</span>
-              ПРОДОЛЖЕНИЕ СЛЕДУЕТ
-            </span>
-
-            <h2>
-              Заходи <span className="serif">на огонёк.</span>
-            </h2>
-          </div>
-
-          <p className="muted">
-            Хорошие вечера случаются,
-            <br />
-            когда мы собираемся вместе.
-          </p>
-        </div>
-
-        <div className="events-grid">
-          <a
-            className="event-card event-orange reveal"
-            href="#visit"
-          >
-            <div className="event-top">
-              <span>КАЖДУЮ ПЯТНИЦУ · 19:00</span>
-              <ArrowUpRight />
-            </div>
-
-            <div
-              className="event-art moon-art"
-              aria-hidden="true"
-            >
-              <span className="moon" />
-              <span className="orbit one" />
-              <span className="orbit two" />
-              <span className="spark s1">✧</span>
-              <span className="spark s2">✦</span>
-              <span className="event-jp">映画の夜</span>
-            </div>
-
-            <div className="event-bottom">
-              <span className="eyebrow">ЕЩЁ ОДНА СЕРИЯ?</span>
-
-              <h3>
-                Аниме, рамэн
-                <br />и никаких спойлеров.
-              </h3>
-
-              <span className="event-link">
-                Как нас найти <ArrowRight size={18} />
-              </span>
-            </div>
-          </a>
-
-          <a
-            className="event-card event-green reveal"
-            href="#visit"
-          >
-            <div className="event-top">
-              <span>КАЖДУЮ СУББОТУ · 18:00</span>
-              <ArrowUpRight />
-            </div>
-
-            <div
-              className="event-art game-art"
-              aria-hidden="true"
-            >
-              <span className="game-tile tile1">
-                龍<small>DRAGON</small>
-              </span>
-
-              <span className="game-tile tile2">
-                猫<small>NEKO</small>
-              </span>
-
-              <span className="spark s2">✳</span>
-            </div>
-
-            <div className="event-bottom">
-              <span className="eyebrow">СОБЕРИ СВОЮ КОМАНДУ</span>
-
-              <h3>
-                Новые друзья.
-                <br />
-                Новая партия.
-              </h3>
-
-              <span className="event-link">
-                Как нас найти <ArrowRight size={18} />
-              </span>
-            </div>
-          </a>
-        </div>
-      </section>
+      <EventsPreview onNavigate={onNavigate} />
 
       <section
         className="visit section reveal"

@@ -1,0 +1,1033 @@
+.ny-events-preview {
+  padding-top: 100px;
+  padding-bottom: 105px;
+}
+
+.ny-events-intro,
+.ny-events-list-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 38px;
+}
+
+.ny-events-intro h2,
+.ny-events-list-heading h2 {
+  margin: 18px 0 0;
+  font-size: clamp(38px, 4vw, 61px);
+  font-weight: 500;
+  letter-spacing: -2.6px;
+  line-height: 1.12;
+}
+
+.ny-events-intro h2 .serif,
+.ny-events-list-heading h2 .serif {
+  color: #c87550;
+}
+
+.ny-events-intro > p,
+.ny-events-list-heading > p {
+  margin: 0 0 5px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: #82887b;
+}
+
+.ny-events-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.ny-event-card {
+  --event-bg: #223b45;
+  --event-accent: #ffbd86;
+  --event-light: #dce9df;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe1d6;
+  border-radius: 8px;
+  background: #fffcf4;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s ease,
+    border-color 0.3s ease;
+  scroll-margin-top: calc(var(--header-height, 94px) + 25px);
+}
+
+.ny-event-card:hover {
+  transform: translateY(-6px);
+  border-color: #c7cbb9;
+  box-shadow: 0 22px 48px #273a301c;
+}
+
+.ny-event-fireflies {
+  --event-bg: #142e40;
+  --event-accent: #ffc17a;
+  --event-light: #9bcbd0;
+}
+
+.ny-event-howl {
+  --event-bg: #526348;
+  --event-accent: #f4c18e;
+  --event-light: #d9e3c9;
+}
+
+.ny-event-note {
+  --event-bg: #302b36;
+  --event-accent: #e99f8c;
+  --event-light: #bfa4c8;
+}
+
+.ny-event-comet {
+  --event-bg: #34385f;
+  --event-accent: #e9b0b9;
+  --event-light: #b3bde6;
+}
+
+.ny-event-poster {
+  height: 270px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 67% 32%,
+      color-mix(in srgb, var(--event-accent) 47%, transparent),
+      transparent 31%
+    ),
+    linear-gradient(
+      135deg,
+      var(--event-bg),
+      color-mix(in srgb, var(--event-bg) 70%, black)
+    );
+  color: var(--event-accent);
+}
+
+.ny-event-poster::before {
+  content: "";
+  position: absolute;
+  width: 205px;
+  height: 205px;
+  top: 15px;
+  right: -18px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--event-accent) 55%, transparent);
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in srgb, var(--event-light) 48%, transparent),
+    transparent 65%
+  );
+  box-shadow:
+    0 0 0 18px #ffffff09,
+    0 0 0 45px #ffffff05;
+  animation: ny-event-moon 8s ease-in-out infinite alternate;
+}
+
+.ny-event-poster::after {
+  content: "";
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  bottom: -80px;
+  height: 145px;
+  transform: rotate(-12deg);
+  background: linear-gradient(
+    120deg,
+    transparent,
+    color-mix(in srgb, var(--event-accent) 23%, transparent)
+  );
+}
+
+.ny-poster-orbit {
+  position: absolute;
+  top: 21px;
+  right: 24px;
+  width: 255px;
+  height: 190px;
+  border: 1px solid #ffffff29;
+  border-radius: 50%;
+  transform: rotate(-30deg);
+}
+
+.ny-poster-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: radial-gradient(#ffffff 0.7px, transparent 0.9px);
+  background-size: 13px 13px;
+}
+
+.ny-poster-kanji {
+  position: absolute;
+  right: 33px;
+  top: 26px;
+  font-size: 133px;
+  line-height: 1;
+  font-weight: 400;
+  color: #fff3d7dd;
+  text-shadow: 0 10px 25px #0004;
+  transform: rotate(9deg);
+  transition: transform 0.6s ease;
+}
+
+.ny-event-card:hover .ny-poster-kanji {
+  transform: rotate(2deg) scale(1.07);
+}
+
+.ny-poster-year {
+  position: absolute;
+  left: 23px;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.ny-poster-year strong {
+  font-family: Georgia, serif;
+  font-size: 90px;
+  line-height: 0.84;
+  font-weight: 400;
+  letter-spacing: -7px;
+}
+
+.ny-poster-year span {
+  font-size: 10px;
+  letter-spacing: 5px;
+  font-weight: 800;
+  margin-top: 9px;
+}
+
+.ny-poster-spark {
+  position: absolute;
+  color: #ffe7bd;
+}
+
+.ny-spark-one {
+  left: 27px;
+  top: 30px;
+  font-size: 32px;
+}
+
+.ny-spark-two {
+  right: 22px;
+  bottom: 25px;
+  font-size: 28px;
+}
+
+.ny-poster-brand {
+  position: absolute;
+  top: 20px;
+  right: 21px;
+  writing-mode: vertical-rl;
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: #fff6da99;
+}
+
+.ny-event-howl .ny-poster-orbit {
+  border-style: dashed;
+}
+
+.ny-event-note .ny-poster-kanji {
+  color: #ebc0bc;
+  transform: rotate(-9deg);
+}
+
+.ny-event-comet .ny-event-poster::after {
+  width: 115%;
+  height: 4px;
+  inset: 47% auto auto -20%;
+  transform: rotate(-25deg);
+  background: #ffe1dd;
+  box-shadow:
+    0 0 20px #efb8d9,
+    0 0 60px #e0b6eb;
+}
+
+.ny-event-body {
+  padding: 23px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ny-event-meta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.ny-event-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #777d6e;
+}
+
+.ny-event-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #ab7650;
+}
+
+.ny-event-status i {
+  height: 6px;
+  width: 6px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.ny-event-status.status-live {
+  color: #518453;
+}
+
+.ny-event-status.status-past {
+  color: #92988b;
+}
+
+.ny-event-category {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  color: #bd7855;
+}
+
+.ny-event-body h3 {
+  margin: 12px 0 6px;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -0.8px;
+  font-weight: 650;
+  text-wrap: balance;
+}
+
+.ny-event-subtitle {
+  margin: 0;
+  color: #a8856e;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.ny-event-description {
+  margin: 17px 0;
+  color: #7d8578;
+  font-size: 11px;
+  line-height: 1.85;
+}
+
+.ny-event-compact .ny-event-description {
+  min-height: 100px;
+}
+
+.ny-event-offer {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  margin-top: auto;
+  padding: 14px;
+  border: 1px solid #ead9bc;
+  border-radius: 5px;
+  background: #fff3df;
+  color: #925632;
+}
+
+.ny-event-offer svg {
+  flex-shrink: 0;
+}
+
+.ny-event-offer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ny-event-offer span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.ny-event-offer strong {
+  font-size: 15px;
+  color: #3f4434;
+}
+
+.ny-event-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 17px;
+  margin-top: 20px;
+}
+
+.ny-event-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  border-bottom: 1px solid #acb5a1;
+  padding-bottom: 8px;
+}
+
+.ny-event-action:hover {
+  color: #ce6845;
+  border-color: #ce6845;
+}
+
+.ny-events-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 38px;
+  padding-top: 27px;
+  border-top: 1px solid #dee0d4;
+}
+
+.ny-events-preview-footer p {
+  max-width: 425px;
+  color: #8b9185;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.ny-events-all-link {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ny-events-all-link > span {
+  width: 51px;
+  height: 51px;
+  display: grid;
+  place-items: center;
+  color: #fff7e8;
+  background: #344331;
+  border-radius: 50%;
+  transition:
+    background 0.25s,
+    transform 0.3s;
+}
+
+.ny-events-all-link:hover > span {
+  background: #e7754b;
+  transform: rotate(-35deg);
+}
+
+.ny-events-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fdf4e3;
+  background:
+    radial-gradient(circle at 80% 28%, #bc805947, transparent 36%),
+    linear-gradient(125deg, #1c3039, #283d3b 60%, #293b34);
+}
+
+.ny-events-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 42px 7.2% 85px;
+}
+
+.ny-events-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: #e2d4c0;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 79px;
+}
+
+.ny-events-back:hover {
+  color: #ffc29c;
+}
+
+.ny-events-hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: #ffc195;
+}
+
+.ny-events-hero h1 {
+  width: auto;
+  max-width: 850px;
+  font-size: clamp(52px, 6.3vw, 92px);
+  line-height: 1.08;
+  letter-spacing: -4.4px;
+  margin: 25px 0;
+  font-weight: 600;
+}
+
+.ny-events-hero h1 em {
+  color: #f4b58d;
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: -3px;
+}
+
+.ny-events-hero-inner > p {
+  max-width: 510px;
+  font-size: 13px;
+  line-height: 2;
+  color: #d4d9cd;
+}
+
+.ny-events-hero-jp {
+  position: absolute;
+  right: 8%;
+  top: 85px;
+  writing-mode: vertical-rl;
+  font-size: 24px;
+  letter-spacing: 15px;
+  color: #fff3de75;
+  text-shadow: 0 5px 20px #0005;
+}
+
+.ny-events-hero-decoration {
+  position: absolute;
+  right: 17%;
+  bottom: -230px;
+  font-size: 620px;
+  color: #fac59b0c;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.ny-events-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  margin-top: 60px;
+}
+
+.ny-events-hero-stats > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ny-events-hero-stats strong {
+  font-family: Georgia, serif;
+  font-size: 35px;
+  font-weight: 400;
+  color: #f9b88c;
+}
+
+.ny-events-hero-stats span {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+  color: #d6d7c9;
+}
+
+.ny-events-hero-stats svg {
+  color: #f9b88c;
+}
+
+.ny-events-list-section {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 90px 7.2% 100px;
+}
+
+.ny-events-filters {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 30px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #dee0d4;
+  overflow-x: auto;
+}
+
+.ny-events-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  padding: 12px 17px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ny-events-filters button:hover {
+  background: #e7e9df;
+}
+
+.ny-events-filters button.active {
+  background: #354633;
+  color: #fff8e8;
+}
+
+.ny-events-filters sup {
+  font-size: 9px;
+  opacity: 0.7;
+}
+
+.ny-events-full-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.ny-event-expanded .ny-event-poster {
+  height: 300px;
+}
+
+.ny-event-expanded .ny-event-body {
+  padding: 27px;
+}
+
+.ny-event-expanded .ny-event-body h3 {
+  font-size: clamp(23px, 2.8vw, 35px);
+}
+
+.ny-event-expanded .ny-event-description {
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.ny-event-expanded .ny-event-offer {
+  margin-top: 10px;
+}
+
+.ny-event-extra {
+  margin-top: 26px;
+  padding-top: 23px;
+  border-top: 1px solid #e7e8de;
+}
+
+.ny-event-extra-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 9px;
+  color: #a67c60;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.ny-event-extra p {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #7e8579;
+}
+
+.ny-event-premiere {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  font-size: 10px;
+  color: #899182;
+}
+
+.ny-event-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #969c8c;
+}
+
+.ny-event-source:hover {
+  color: #c56b46;
+}
+
+.ny-events-disclaimer {
+  margin: 38px 0 0;
+  padding: 18px 22px;
+  border-left: 2px solid #d8a886;
+  background: #efeee5;
+  font-size: 10px;
+  line-height: 1.85;
+  color: #808779;
+}
+
+.ny-events-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px dashed #ced5c8;
+  border-radius: 10px;
+  padding: 75px 20px;
+}
+
+.ny-events-empty > span {
+  font-size: 70px;
+  color: #cc9e77;
+}
+
+.ny-events-empty h3 {
+  font-size: 25px;
+  margin: 13px 0;
+}
+
+.ny-events-empty p {
+  font-size: 12px;
+  color: #8b9182;
+}
+
+.ny-events-empty button {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 12px;
+  border-bottom: 1px solid;
+  padding-bottom: 7px;
+}
+
+.ny-events-ending {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  padding: 75px max(7.2%, calc((100vw - 1232px) / 2));
+  color: #fff5e6;
+  background: #354633;
+}
+
+.ny-events-ending .eyebrow {
+  color: #f2b38b;
+}
+
+.ny-events-ending h2 {
+  font-size: clamp(30px, 3.5vw, 50px);
+  font-weight: 500;
+  letter-spacing: -1.6px;
+  margin: 12px 0;
+}
+
+.ny-events-ending .serif {
+  color: #ffc19a;
+}
+
+.ny-events-ending p {
+  color: #d9e0d2;
+  font-size: 12px;
+}
+
+@keyframes ny-event-moon {
+  to {
+    transform: translateY(-12px);
+    box-shadow:
+      0 0 0 25px #ffffff09,
+      0 0 0 55px #ffffff05;
+  }
+}
+
+@media (max-width: 1100px) {
+  .ny-events-preview-grid {
+    gap: 15px;
+  }
+
+  .ny-event-body {
+    padding: 18px;
+  }
+
+  .ny-event-meta {
+    gap: 10px;
+  }
+
+  .ny-event-compact .ny-event-description {
+    min-height: 140px;
+  }
+
+  .ny-events-list-section {
+    padding-inline: 6%;
+  }
+}
+
+@media (max-width: 800px) {
+  .ny-events-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ny-events-preview-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .ny-event-compact .ny-event-description {
+    min-height: 0;
+  }
+
+  .ny-events-full-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ny-events-intro,
+  .ny-events-list-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .ny-events-hero-inner {
+    padding-inline: 6%;
+  }
+
+  .ny-events-hero-jp {
+    right: 5%;
+    font-size: 16px;
+  }
+
+  .ny-events-ending {
+    padding-inline: 6%;
+  }
+}
+
+@media (max-width: 560px) {
+  .ny-events-preview {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+  .ny-events-intro h2,
+  .ny-events-list-heading h2 {
+    font-size: 40px;
+    letter-spacing: -1.7px;
+  }
+
+  .ny-events-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ny-events-preview-grid > :last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  .ny-event-poster {
+    height: 235px;
+  }
+
+  .ny-event-expanded .ny-event-poster {
+    height: 255px;
+  }
+
+  .ny-event-body,
+  .ny-event-expanded .ny-event-body {
+    padding: 19px;
+  }
+
+  .ny-event-body h3 {
+    font-size: 23px;
+  }
+
+  .ny-events-preview-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ny-events-hero-inner {
+    padding: 30px 6% 65px;
+  }
+
+  .ny-events-back {
+    margin-bottom: 58px;
+  }
+
+  .ny-events-hero h1 {
+    font-size: clamp(42px, 11vw, 63px);
+    letter-spacing: -2.4px;
+  }
+
+  .ny-events-hero h1 em {
+    letter-spacing: -1px;
+  }
+
+  .ny-events-hero-inner > p {
+    font-size: 11px;
+    max-width: 320px;
+  }
+
+  .ny-events-hero-jp {
+    opacity: 0.3;
+  }
+
+  .ny-events-hero-stats {
+    gap: 20px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .ny-events-hero-stats strong {
+    font-size: 28px;
+  }
+
+  .ny-events-list-section {
+    padding: 65px 6%;
+  }
+
+  .ny-events-filters button {
+    padding: 11px;
+    font-size: 10px;
+  }
+
+  .ny-events-ending {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 65px 6%;
+  }
+
+  .ny-events-ending h2 {
+    font-size: 35px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ny-event-poster::before {
+    animation: none;
+  }
+
+  .ny-event-card,
+  .ny-poster-kanji,
+  .ny-events-all-link > span {
+    transition: none;
+  }
+}
+
+.ny-event-poster {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #202d31;
+}
+
+.ny-event-card .ny-event-poster::before,
+.ny-event-card .ny-event-poster::after {
+  content: none;
+}
+
+.ny-event-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition:
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.65s ease;
+}
+
+.ny-event-card:hover .ny-event-cover {
+  transform: scale(1.08);
+  filter: saturate(1.12);
+}
+
+.ny-event-cover-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 19, 23, 0.55) 0%,
+    transparent 35%,
+    rgba(12, 19, 23, 0.18) 55%,
+    rgba(12, 19, 23, 0.88) 100%
+  );
+  pointer-events: none;
+}
+
+.ny-event-cover-label {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  color: #fff8e8;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #0007;
+}
+
+.ny-event-cover-anniversary {
+  position: absolute;
+  left: 22px;
+  bottom: 23px;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: #fff5e3;
+  text-shadow: 0 4px 20px #0008;
+}
+
+.ny-event-cover-anniversary strong {
+  font-family: Georgia, serif;
+  font-size: clamp(64px, 7vw, 95px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -5px;
+}
+
+.ny-event-cover-anniversary span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.ny-event-cover-date {
+  position: absolute;
+  right: 22px;
+  bottom: 27px;
+  z-index: 2;
+  color: #fff1de;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 3px 12px #000b;
+}
+
+@media (max-width: 560px) {
+  .ny-event-cover-anniversary strong {
+    font-size: 68px;
+  }
+
+  .ny-event-cover-date {
+    font-size: 8px;
+    right: 15px;
+  }
+
+  .ny-event-cover-label {
+    font-size: 8px;
+    left: 15px;
+    top: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ny-event-cover {
+    transition: none;
+  }
+}

@@ -16,11 +16,14 @@ import CartModal from "./components/CartModal";
 import Recommendations from "./components/Recommendations";
 import FloatingCart from "./components/FloatingCart";
 import OrdersPage from "./components/OrdersPage";
+import { EventsPage } from "./components/Events";
 
 const getRoute = () => {
   const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
 
-  return ["/", "/menu", "/order"].includes(pathname) ? pathname : "/";
+  return ["/", "/menu", "/order", "/events"].includes(pathname)
+    ? pathname
+    : "/";
 };
 
 const canAnimate = () =>
@@ -83,11 +86,13 @@ export default function App() {
 
   useEffect(() => {
     document.title =
-      route === "/order"
-        ? "Мои заказы — NEKO YORU"
-        : route === "/menu"
-          ? "Меню — NEKO YORU"
-          : "NEKO YORU — твоя маленькая Япония";
+      route === "/events"
+        ? "События — NEKO YORU"
+        : route === "/order"
+          ? "Мои заказы — NEKO YORU"
+          : route === "/menu"
+            ? "Меню — NEKO YORU"
+            : "NEKO YORU — твоя маленькая Япония";
   }, [route]);
 
   useEffect(() => () => clearTimeout(toastTimer.current), []);
@@ -160,7 +165,7 @@ export default function App() {
       return;
     }
 
-    const nextRoute = ["/menu", "/order"].includes(
+    const nextRoute = ["/menu", "/order", "/events"].includes(
       next.pathname.replace(/\/+$/, ""),
     )
       ? next.pathname.replace(/\/+$/, "")
@@ -237,7 +242,9 @@ export default function App() {
         }-route`}
         key={route}
       >
-        {route === "/order" ? (
+        {route === "/events" ? (
+          <EventsPage onNavigate={navigate} />
+        ) : route === "/order" ? (
           <OrdersPage
             orders={orderModel.orders}
             now={orderModel.now}
@@ -283,7 +290,10 @@ export default function App() {
             <Hero onNavigate={navigate} />
             <Recommendations onNavigate={navigate} />
 
-            <ContentSections onMoodOpen={() => navigate(null, "/menu")} />
+            <ContentSections
+              onMoodOpen={() => navigate(null, "/menu")}
+              onNavigate={navigate}
+            />
           </>
         )}
       </main>
