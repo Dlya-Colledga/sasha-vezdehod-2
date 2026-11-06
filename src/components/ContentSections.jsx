@@ -7,6 +7,7 @@ import {
   Clock,
 } from "lucide-react";
 import Cat from "./Cat";
+import VisitMap, { GIS_URL } from "./VisitMap";
 
 export default function ContentSections({ onMoodOpen }) {
   return (
@@ -213,7 +214,7 @@ export default function ContentSections({ onMoodOpen }) {
         className="visit section reveal"
         id="visit"
       >
-        <div>
+        <div className="visit-copy">
           <span className="eyebrow">ТВОЯ СЛЕДУЮЩАЯ ОСТАНОВКА</span>
 
           <h2>
@@ -223,58 +224,42 @@ export default function ContentSections({ onMoodOpen }) {
             <span className="visit-star">✦</span>
           </h2>
 
+          <p className="visit-description">
+            Где город становится тише,
+            <br />
+            а каждая встреча превращается
+            <br />в маленькую историю.
+          </p>
+
           <div className="visit-meta">
             <p>
-              <MapPin size={17} /> Бишкек, ул. Токтогула, 125
+              <MapPin size={17} />
+              Бишкек, Кыргызстан
             </p>
+
             <p>
-              <Clock size={17} /> Каждый день · 12:00 — 23:00
+              <Clock size={17} />
+              Точный адрес и часы работы — в 2ГИС
             </p>
           </div>
 
           <a
             className="button coral"
-            href="https://www.google.com/maps/search/?api=1&query=Бишкек%2C+Токтогула+125"
+            href={GIS_URL}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Открыть карту <ArrowUpRight size={19} />
+            Проложить маршрут
+            <ArrowUpRight size={19} />
           </a>
-        </div>
 
-        <div className="visit-ticket">
-          <div className="ticket-top">
-            <Cat />
-            <span>БИЛЕТ В ТВОЙ УЮТНЫЙ ВЕЧЕР</span>
-            <span>01</span>
-          </div>
-
-          <h3>
-            Главный герой —<br />
-            <span className="serif">ты.</span>
-          </h3>
-
-          <p>
-            Приходи с друзьями, с любимым человеком
-            <br />
-            или просто с хорошей книгой.
-          </p>
-
-          <div className="ticket-dash" />
-
-          <div className="ticket-bottom">
-            <span>
-              МЕСТО НАЗНАЧЕНИЯ
-              <br />
-              <b>NEKO YORU</b>
-            </span>
-
-            <span
-              className="barcode"
-              aria-hidden="true"
-            />
+          <div className="visit-small-note">
+            <span>✧</span>
+            МАЛЕНЬКАЯ ЯПОНИЯ ЖДЁТ ТЕБЯ
           </div>
         </div>
+
+        <VisitMap />
       </section>
     </>
   );
