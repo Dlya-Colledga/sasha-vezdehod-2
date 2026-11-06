@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useAtmosphere } from "../hooks/useAtmosphere";
 
-export default function Hero() {
+export default function Hero({ onNavigate }) {
   const [music, toggleMusic] = useAtmosphere();
 
   return (
@@ -46,8 +46,9 @@ export default function Hero() {
 
           <div className="hero-actions">
             <a
-              href="#menu"
+              href="/menu"
               className="button coral"
+              onClick={(event) => onNavigate(event, "/menu")}
             >
               Открыть меню <ArrowUpRight size={20} />
             </a>

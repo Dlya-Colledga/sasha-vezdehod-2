@@ -3,13 +3,13 @@ import { Menu, ShoppingBag, X } from "lucide-react";
 import Cat from "./Cat";
 
 const links = [
-  ["menu", "Меню"],
-  ["story", "Наш мир"],
-  ["evenings", "События"],
-  ["visit", "Где мы"],
+  ["/menu", "Меню"],
+  ["/#story", "Наш мир"],
+  ["/#evenings", "События"],
+  ["/#visit", "Где мы"],
 ];
 
-export default function Header({ count, onCartOpen }) {
+export default function Header({ count, onCartOpen, route, onNavigate }) {
   const [open, setOpen] = useState(false);
   const headerRef = useRef(null);
   const toggleRef = useRef(null);
@@ -75,8 +75,11 @@ export default function Header({ count, onCartOpen }) {
     >
       <a
         className="brand"
-        href="#"
-        onClick={() => setOpen(false)}
+        href="/"
+        onClick={(event) => {
+          setOpen(false);
+          onNavigate(event, "/");
+        }}
         aria-label="NEKO YORU — на главную"
       >
         <Cat />
@@ -92,11 +95,17 @@ export default function Header({ count, onCartOpen }) {
         aria-label="Основная навигация"
         className={`nav ${open ? "open" : ""}`}
       >
-        {links.map(([id, label]) => (
+        {links.map(([href, label]) => (
           <a
-            key={id}
-            href={`#${id}`}
-            onClick={() => setOpen(false)}
+            key={href}
+            href={href}
+            aria-current={
+              href === "/menu" && route === "/menu" ? "page" : undefined
+            }
+            onClick={(event) => {
+              setOpen(false);
+              onNavigate(event, href);
+            }}
           >
             {label}
           </a>

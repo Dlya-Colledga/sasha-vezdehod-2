@@ -8,12 +8,13 @@ const predictions = [
   "Сегодня ты заслуживаешь маленького приключения.",
 ];
 
-export default function Footer({ notify }) {
+export default function Footer({ notify, onNavigate }) {
   return (
     <footer className="footer">
       <a
         className="brand"
-        href="#"
+        href="/"
+        onClick={(event) => onNavigate(event, "/")}
       >
         <Cat />
 
@@ -25,8 +26,12 @@ export default function Footer({ notify }) {
 
       <span>Сделано с любовью и щепоткой магии.</span>
 
-      <a href="#">
-        Вернуться к началу <ArrowUpRight size={16} />
+      <a
+        href="/"
+        onClick={(event) => onNavigate(event, "/")}
+      >
+        Вернуться к началу
+        <ArrowUpRight size={16} />
       </a>
 
       <div className="footer-bottom">

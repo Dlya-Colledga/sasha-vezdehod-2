@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Sparkles,
   ArrowUpRight,
@@ -17,33 +17,35 @@ export default function MenuSection({
   onAdd,
   onDetailOpen,
   onMoodOpen,
+  onOpenMenu,
+  fullMenu = false,
 }) {
   const [category, setCategory] = useState("Всё меню");
-  const [expanded, setExpanded] = useState(false);
-  const toolbarRef = useRef(null);
 
   const visibleDishes = dishes.filter((dish) =>
     category === "Всё меню"
-      ? expanded || dish.id <= 4
+      ? fullMenu || dish.id <= 4
       : dish.category === category,
   );
 
   return (
     <section
-      className="menu-section section"
+      className={`menu-section section ${fullMenu ? "menu-page-list" : ""}`}
       id="menu"
     >
       <div className="section-heading reveal">
         <div>
           <span className="eyebrow">
-            <span className="section-num">01</span>
+            <span className="section-num">{fullMenu ? "02" : "01"}</span>
             МЕНЮ С ХАРАКТЕРОМ
           </span>
 
           <h2>
-            Выбери свою
+            {fullMenu ? "Выбери своего" : "Выбери свою"}
             <br />
-            <span className="serif">вкусную арку.</span>
+            <span className="serif">
+              {fullMenu ? "вкусного героя." : "вкусную арку."}
+            </span>
           </h2>
         </div>
 
@@ -65,10 +67,7 @@ export default function MenuSection({
         </div>
       </div>
 
-      <div
-        ref={toolbarRef}
-        className="menu-toolbar"
-      >
+      <div className="menu-toolbar">
         <div
           className="tabs"
           role="group"
@@ -79,12 +78,10 @@ export default function MenuSection({
               key={item}
               aria-pressed={category === item}
               className={category === item ? "active" : ""}
-              onClick={() => {
-                setCategory(item);
-                if (item === "Всё меню") setExpanded(true);
-              }}
+              onClick={() => setCategory(item)}
             >
               {index === 0 && <UtensilsCrossed size={15} />}
+
               {item}
 
               <sup>
@@ -101,12 +98,17 @@ export default function MenuSection({
         </span>
       </div>
 
-      <div className="dish-grid">
+      <div
+        className="dish-grid"
+        aria-live="polite"
+      >
         {visibleDishes.map((dish, index) => (
           <article
             className="dish-card"
             key={dish.id}
-            style={{ animationDelay: `${index * 70}ms` }}
+            style={{
+              animationDelay: `${index * 70}ms`,
+            }}
           >
             <button
               className="dish-image"
@@ -180,20 +182,20 @@ export default function MenuSection({
           Есть блюда без мяса. О составе расскажем с удовольствием.
         </span>
 
-        <button
-          className="text-link"
-          onClick={() => {
-            setCategory("Всё меню");
-            setExpanded(category !== "Всё меню" || !expanded);
-            toolbarRef.current?.scrollIntoView({ block: "start" });
-          }}
-        >
-          {category === "Всё меню" && expanded
-            ? "Только любимые блюда"
-            : "Показать всё меню"}
-
-          <ArrowRight size={17} />
-        </button>
+        {fullMenu ? (
+          <span className="menu-page-footnote">
+            いただきます · ПРИЯТНОГО АППЕТИТА
+          </span>
+        ) : (
+          <a
+            href="/menu"
+            className="text-link"
+            onClick={onOpenMenu}
+          >
+            Смотреть полное меню
+            <ArrowRight size={17} />
+          </a>
+        )}
       </div>
     </section>
   );
