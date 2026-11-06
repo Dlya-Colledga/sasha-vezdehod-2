@@ -1,16 +1,7 @@
 import React from "react";
-import {
-  ArrowUpRight,
-  ArrowRight,
-  ArrowDown,
-  VolumeX,
-  Music2,
-} from "lucide-react";
-import { useAtmosphere } from "../hooks/useAtmosphere";
+import { ArrowUpRight, ArrowRight, ArrowDown } from "lucide-react";
 
 export default function Hero({ onNavigate }) {
-  const [music, toggleMusic] = useAtmosphere();
-
   return (
     <>
       <section
@@ -91,26 +82,6 @@ export default function Hero({ onNavigate }) {
             </span>
             ЛИСТАЙ СВОЮ ИСТОРИЮ
           </a>
-
-          <button
-            className={`sound-button ${music ? "playing" : ""}`}
-            onClick={toggleMusic}
-            aria-pressed={music}
-          >
-            <span className="sound-bars">
-              <i />
-              <i />
-              <i />
-              <i />
-            </span>
-
-            <span>
-              {music ? "Вечер звучит" : "Добавить атмосферы"}
-              <small>NEKO RADIO · LO-FI VIBES</small>
-            </span>
-
-            {music ? <VolumeX size={17} /> : <Music2 size={17} />}
-          </button>
         </div>
 
         <span className="hero-chapter">第 一 章 / ГЛАВА 01</span>
