@@ -10,6 +10,8 @@ import MenuDialogs from "./components/MenuDialogs";
 import ContentSections from "./components/ContentSections";
 import Footer from "./components/Footer";
 import CartModal from "./components/CartModal";
+import Recommendations from "./components/Recommendations";
+import FloatingCart from "./components/FloatingCart";
 
 const getRoute = () =>
   window.location.pathname.replace(/\/+$/, "") === "/menu" ? "/menu" : "/";
@@ -208,8 +210,6 @@ export default function App() {
       <Header
         route={route}
         onNavigate={navigate}
-        count={model.count}
-        onCartOpen={() => setDialog({ type: "cart" })}
       />
 
       <main
@@ -257,15 +257,19 @@ export default function App() {
           <>
             <Hero onNavigate={navigate} />
 
-            <MenuSection
-              {...menuProps}
-              onOpenMenu={(event) => navigate(event, "/menu")}
-            />
+            <Recommendations onNavigate={navigate} />
 
-            <ContentSections onMoodOpen={openMood} />
+            <ContentSections onMoodOpen={() => navigate(null, "/menu")} />
           </>
         )}
       </main>
+
+      {route === "/menu" && (
+        <FloatingCart
+          count={model.count}
+          onClick={() => setDialog({ type: "cart" })}
+        />
+      )}
 
       <Footer
         notify={notify}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Menu, ShoppingBag, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Cat from "./Cat";
 
 const links = [
@@ -9,7 +9,7 @@ const links = [
   ["/#visit", "Где мы"],
 ];
 
-export default function Header({ count, onCartOpen, route, onNavigate }) {
+export default function Header({ route, onNavigate }) {
   const [open, setOpen] = useState(false);
   const headerRef = useRef(null);
   const toggleRef = useRef(null);
@@ -113,18 +113,6 @@ export default function Header({ count, onCartOpen, route, onNavigate }) {
       </nav>
 
       <div className="header-actions">
-        <button
-          className="cart-button"
-          onClick={() => {
-            setOpen(false);
-            onCartOpen();
-          }}
-          aria-label={`Открыть заказ, ${count} блюд`}
-        >
-          <ShoppingBag size={19} />
-          <span>{count}</span>
-        </button>
-
         <button
           ref={toggleRef}
           className="icon-button mobile-toggle"
