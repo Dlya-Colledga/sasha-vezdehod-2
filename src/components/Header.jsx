@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, ReceiptText, X } from "lucide-react";
 import Cat from "./Cat";
 
 const links = [
-  ["/menu", "Меню"],
   ["/#story", "Наш мир"],
   ["/#evenings", "События"],
   ["/#visit", "Где мы"],
 ];
 
-export default function Header({ route, onNavigate }) {
+export default function Header({ route, onNavigate, activeOrders }) {
   const [open, setOpen] = useState(false);
   const headerRef = useRef(null);
   const toggleRef = useRef(null);
@@ -17,12 +16,11 @@ export default function Header({ route, onNavigate }) {
   useEffect(() => {
     const header = headerRef.current;
 
-    const update = () => {
+    const update = () =>
       document.documentElement.style.setProperty(
         "--header-height",
         `${header.offsetHeight}px`,
       );
-    };
 
     update();
 
@@ -38,48 +36,50 @@ export default function Header({ route, onNavigate }) {
   useEffect(() => {
     if (!open) return;
 
-    const closeOutside = (event) => {
-      if (!headerRef.current.contains(event.target)) {
+    const outside = (event) => {
+      if (!headerRef.current?.contains(event.target)) {
         setOpen(false);
       }
     };
 
-    const closeOnEscape = (event) => {
+    const escape = (event) => {
       if (event.key === "Escape") {
         setOpen(false);
         toggleRef.current?.focus();
       }
     };
 
-    const viewport = matchMedia("(min-width: 561px)");
+    const viewport = matchMedia("(min-width: 701px)");
 
-    const closeOnResize = () => {
+    const resize = () => {
       if (viewport.matches) setOpen(false);
     };
 
-    document.addEventListener("pointerdown", closeOutside);
-    document.addEventListener("keydown", closeOnEscape);
-    viewport.addEventListener("change", closeOnResize);
+    document.addEventListener("pointerdown", outside);
+    document.addEventListener("keydown", escape);
+    viewport.addEventListener("change", resize);
 
     return () => {
-      document.removeEventListener("pointerdown", closeOutside);
-      document.removeEventListener("keydown", closeOnEscape);
-      viewport.removeEventListener("change", closeOnResize);
+      document.removeEventListener("pointerdown", outside);
+      document.removeEventListener("keydown", escape);
+      viewport.removeEventListener("change", resize);
     };
   }, [open]);
+
+  const go = (event, href) => {
+    setOpen(false);
+    onNavigate(event, href);
+  };
 
   return (
     <header
       ref={headerRef}
-      className="header"
+      className="header neko-header"
     >
       <a
         className="brand"
         href="/"
-        onClick={(event) => {
-          setOpen(false);
-          onNavigate(event, "/");
-        }}
+        onClick={(event) => go(event, "/")}
         aria-label="NEKO YORU — на главную"
       >
         <Cat />
@@ -99,22 +99,49 @@ export default function Header({ route, onNavigate }) {
           <a
             key={href}
             href={href}
-            aria-current={
-              href === "/menu" && route === "/menu" ? "page" : undefined
-            }
-            onClick={(event) => {
-              setOpen(false);
-              onNavigate(event, href);
-            }}
+            onClick={(event) => go(event, href)}
           >
             {label}
           </a>
         ))}
       </nav>
 
-      <div className="header-actions">
+      <div className="header-actions neko-header-actions">
+        <a
+          href="/order"
+          className={`header-orders-link ${
+            route === "/order" ? "selected" : ""
+          }`}
+          aria-current={route === "/order" ? "page" : undefined}
+          aria-label={`Мои заказы${
+            activeOrders ? `, активных: ${activeOrders}` : ""
+          }`}
+          onClick={(event) => go(event, "/order")}
+        >
+          <ReceiptText
+            size={18}
+            strokeWidth={1.8}
+          />
+
+          <span className="header-orders-text">Мои заказы</span>
+
+          {activeOrders > 0 && (
+            <span className="header-orders-count">{activeOrders}</span>
+          )}
+        </a>
+
+        <a
+          href="/menu"
+          className={`header-menu-cta ${route === "/menu" ? "selected" : ""}`}
+          aria-current={route === "/menu" ? "page" : undefined}
+          onClick={(event) => go(event, "/menu")}
+        >
+          Меню <ArrowUpRight size={18} />
+        </a>
+
         <button
           ref={toggleRef}
+          type="button"
           className="icon-button mobile-toggle"
           aria-label={open ? "Закрыть навигацию" : "Открыть навигацию"}
           aria-controls="main-navigation"

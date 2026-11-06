@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Check, Sparkles } from "lucide-react";
+
 import { useCart } from "./hooks/useCart";
+import { useOrders } from "./hooks/useOrders";
+
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import MenuPage from "./components/MenuPage";
@@ -12,9 +15,13 @@ import Footer from "./components/Footer";
 import CartModal from "./components/CartModal";
 import Recommendations from "./components/Recommendations";
 import FloatingCart from "./components/FloatingCart";
+import OrdersPage from "./components/OrdersPage";
 
-const getRoute = () =>
-  window.location.pathname.replace(/\/+$/, "") === "/menu" ? "/menu" : "/";
+const getRoute = () => {
+  const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+
+  return ["/", "/menu", "/order"].includes(pathname) ? pathname : "/";
+};
 
 const canAnimate = () =>
   typeof document.startViewTransition === "function" &&
@@ -22,37 +29,32 @@ const canAnimate = () =>
 
 function scrollToTarget(hash) {
   if (!hash) {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
     return;
   }
 
-  const id = decodeURIComponent(hash.slice(1));
-  const target = document.getElementById(id);
+  const element = document.getElementById(decodeURIComponent(hash.slice(1)));
 
-  if (target) {
-    target.scrollIntoView({
+  if (element) {
+    element.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "auto"
         : "smooth",
       block: "start",
     });
   } else {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 }
 
 export default function App() {
   const model = useCart();
+  const orderModel = useOrders();
+
   const [route, setRoute] = useState(getRoute);
   const [dialog, setDialog] = useState(null);
   const [toast, setToast] = useState("");
   const toastTimer = useRef(null);
-
-  useEffect(() => {
-    try {
-      localStorage.removeItem("neko-bookings");
-    } catch {}
-  }, []);
 
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
@@ -81,9 +83,11 @@ export default function App() {
 
   useEffect(() => {
     document.title =
-      route === "/menu"
-        ? "Меню — NEKO YORU"
-        : "NEKO YORU — твоя маленькая Япония";
+      route === "/order"
+        ? "Мои заказы — NEKO YORU"
+        : route === "/menu"
+          ? "Меню — NEKO YORU"
+          : "NEKO YORU — твоя маленькая Япония";
   }, [route]);
 
   useEffect(() => () => clearTimeout(toastTimer.current), []);
@@ -101,13 +105,14 @@ export default function App() {
     if (canAnimate()) {
       const transition = document.startViewTransition(update);
 
-      transition.finished
-        .then(() => {
+      transition.finished.then(
+        () => {
           if (hash) scrollToTarget(hash);
-        })
-        .catch(() => {
+        },
+        () => {
           if (hash) scrollToTarget(hash);
-        });
+        },
+      );
     } else {
       update();
 
@@ -123,10 +128,9 @@ export default function App() {
 
       if (nextRoute === route) {
         scrollToTarget(window.location.hash);
-        return;
+      } else {
+        swapRoute(nextRoute, window.location.hash);
       }
-
-      swapRoute(nextRoute, window.location.hash);
     };
 
     window.addEventListener("popstate", onPopState);
@@ -156,8 +160,11 @@ export default function App() {
       return;
     }
 
-    const nextRoute =
-      next.pathname.replace(/\/+$/, "") === "/menu" ? "/menu" : "/";
+    const nextRoute = ["/menu", "/order"].includes(
+      next.pathname.replace(/\/+$/, ""),
+    )
+      ? next.pathname.replace(/\/+$/, "")
+      : "/";
 
     const nextUrl = `${next.pathname}${next.search}${next.hash}`;
 
@@ -176,9 +183,9 @@ export default function App() {
     }
   };
 
-  const notify = (text) => {
+  const notify = (message) => {
     clearTimeout(toastTimer.current);
-    setToast(text);
+    setToast(message);
     toastTimer.current = setTimeout(() => setToast(""), 2800);
   };
 
@@ -195,7 +202,6 @@ export default function App() {
   };
 
   const openMood = () => setDialog({ type: "mood" });
-  const closeDialog = () => setDialog(null);
 
   const menuProps = {
     cart: model.cart,
@@ -205,20 +211,39 @@ export default function App() {
     onMoodOpen: openMood,
   };
 
+  const placeOrder = (customer) => {
+    const order = orderModel.createOrder(model.cart, customer);
+
+    if (!order) return false;
+
+    model.clear();
+    setDialog(null);
+    navigate(null, "/order");
+
+    return true;
+  };
+
   return (
     <>
       <Header
         route={route}
         onNavigate={navigate}
+        activeOrders={orderModel.activeCount}
       />
 
       <main
-        className={`page-shell ${
-          route === "/menu" ? "is-menu-route" : "is-home-route"
-        }`}
+        className={`page-shell is-${
+          route === "/" ? "home" : route.slice(1)
+        }-route`}
         key={route}
       >
-        {route === "/menu" ? (
+        {route === "/order" ? (
+          <OrdersPage
+            orders={orderModel.orders}
+            now={orderModel.now}
+            onNavigate={navigate}
+          />
+        ) : route === "/menu" ? (
           <>
             <MenuPage onNavigate={navigate} />
 
@@ -256,7 +281,6 @@ export default function App() {
         ) : (
           <>
             <Hero onNavigate={navigate} />
-
             <Recommendations onNavigate={navigate} />
 
             <ContentSections onMoodOpen={() => navigate(null, "/menu")} />
@@ -290,13 +314,14 @@ export default function App() {
         maxQuantity={model.maxQuantity}
         onAdd={add}
         dialog={dialog}
-        onClose={closeDialog}
+        onClose={() => setDialog(null)}
       />
 
       <CartModal
         open={dialog?.type === "cart"}
-        onClose={closeDialog}
         model={model}
+        onClose={() => setDialog(null)}
+        onPlace={placeOrder}
       />
     </>
   );
