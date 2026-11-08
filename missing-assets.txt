@@ -1,0 +1,2 @@
+HTTP 404	https://planeteno-food-station.sunilnathyogi008.workers.dev/lottie/${t.name}.json
+HTTP 404	https://planeteno-food-station.sunilnathyogi008.workers.dev/three/cache/${this.name}.json
